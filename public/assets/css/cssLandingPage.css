@@ -1,0 +1,67 @@
+.navbar{
+    font-family: 'Poppins', sans-serif;
+    z-index: 3;
+}
+.navbar-brand{
+    font-weight: 700;
+    font-size: 20px;
+}
+.nav-link{
+    font-size: 16px;
+}
+.nav-link.active{
+    font-weight: 700;
+}
+.nav-color{
+    background-color: #008080;
+    transition: all ease-in-out 0.3s;
+}
+.bg-transparent{
+    transition: all ease-in-out 0.5s;
+}
+
+.container{
+    font-family: 'Poppins', sans-serif;
+}
+.button-sewa{
+    background-color: #fff;
+    width: 200px;
+    height: 40px;
+    border: none;
+    font-size: 16px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+#hero{
+    background : linear-gradient(160deg, #023b3b,#008080,#006363,#003535,#002e2e );
+    padding-top: 60px;
+    font-family: 'Poppins', sans-serif;
+    
+}
+.hero-tagline h1{
+    color: #fff;
+    font-weight: 700;
+}
+.hero-tagline p{
+    margin-top: 25px;
+    color: #fff;
+    font-size: 16px;
+    width: 90%;
+}
+.hero-text h1{
+    color: #008080;
+    font-weight: 700;
+    text-align: center;
+}
+.hero-text{
+    text-align: center;
+    font-size: 16px;
+}
+.main-content{
+    background-color: #fff;
+}
+.text{
+    color: #008080;
+}
