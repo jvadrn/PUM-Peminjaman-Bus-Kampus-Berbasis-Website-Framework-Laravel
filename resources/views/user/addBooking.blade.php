@@ -137,7 +137,7 @@
       
       <li class="nav-item mb-1">
         <a class="nav-link collapsed"  href="{{ route('peminjaman.index') }}">
-          <i class="bi bi-grid"></i>
+          <i class="bi bi-journal-text"></i>
           <span>Peminjaman</span>
         </a>
       </li><!-- End Peminjaman Nav -->

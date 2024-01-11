@@ -44,53 +44,66 @@
     </div>
     {{-- ini untuk local Storage --}}
     <!-- ... Bagian HTML sebelumnya ... -->
-<script>
-    document.getElementById('loginForm').addEventListener('submit', function (event) {
-        event.preventDefault(); // Mencegah formulir dikirim secara default
-
-        const npmValue = document.getElementById('npm').value;
-        const passwordValue = document.getElementById('password').value;
-
-        fetch('/loginPost', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-            },
-            body: JSON.stringify({ npm: npmValue, password: passwordValue }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.isLoggedIn) {
-            // Menyimpan data ke local storage
-            localStorage.setItem('user_id', data.user_id)
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('id_role', data.id_role);
-            localStorage.setItem('npm', data.npm);
-            localStorage.setItem('name', data.name);
-            localStorage.setItem('id_major', data.id_major);
-            localStorage.setItem('prodi', data.prodi);
-            localStorage.setItem('major_name', data.major_name);
-            localStorage.setItem('isAdmin', data.id_role === 1 ? 'true' : 'false');
-            localStorage.setItem('isUser', data.id_role === 2 ? 'true' : 'false'); // Menambahkan data isAdmin
-
-            // Redirect ke halaman dashboard atau halaman setelah login
-            window.location.href = "{{ route('dashboard.index') }}";
-        } else {
-            alert("Login failed. Please check your credentials.");
-        }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("An error occurred while processing the login.");
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+    
+            const npmValue = document.getElementById('npm').value;
+            const passwordValue = document.getElementById('password').value;
+    
+            fetch("{{ route('loginPost') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify({ npm: npmValue, password: passwordValue }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Menyimpan data ke local storage berdasarkan peran (role)
+                    localStorage.setItem('user_id', data.additional_data.user_id);
+                    localStorage.setItem('id_role', data.additional_data.id_role);
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('npm', data.additional_data.npm);
+                    localStorage.setItem('name', data.additional_data.name);
+    
+                    // Hanya menyimpan data yang sesuai untuk admin
+                    if (data.additional_data.isAdmin) {
+                        localStorage.setItem('isAdmin', 'true');
+                    } else {
+                        // Menyimpan data tambahan untuk non-admin
+                        localStorage.setItem('id_major', data.additional_data.id_major);
+                        localStorage.setItem('prodi', data.additional_data.prodi);
+                        localStorage.setItem('major_name', data.additional_data.major_name);
+                        localStorage.setItem('isUser', 'true');
+                    }
+    
+                    // Redirect ke rute yang sesuai berdasarkan peran (role)
+                    if (data.additional_data.isAdmin) {
+                        window.location.href = "{{ route('Admin.index') }}";
+                    } else {
+                        window.location.href = "{{ route('dashboard.index') }}";
+                    }
+                } else {
+                    // Periksa apakah terdapat pesan kesalahan
+                    const errorMessage = data.error ? `Login failed. ${data.error}` : 'Login failed.';
+    
+                    // Ganti dengan pemberitahuan yang lebih baik daripada alert
+                    console.error(errorMessage);
+                    // Menggunakan pemberitahuan atau menambahkan elemen HTML sesuai kebutuhan
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Menggunakan pemberitahuan atau menambahkan elemen HTML sesuai kebutuhan
+            });
         });
-    });
-</script>
+    </script>
+    
+    
+
 <!-- ... Bagian HTML setelahnya ... -->
 
 	

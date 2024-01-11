@@ -41,7 +41,7 @@ class userLoginController extends Controller
     if (Hash::check($request->password, $user->password)) {
         // Menyiapkan data untuk dikirim ke frontend
         $major = $user->major;
-        $majorName = $major ? $major->name : null;
+        $majorName = $major->name ? $major->name : null;
         $prodi = $user->prodi;
 
         // Menyiapkan data untuk dikirim ke frontend

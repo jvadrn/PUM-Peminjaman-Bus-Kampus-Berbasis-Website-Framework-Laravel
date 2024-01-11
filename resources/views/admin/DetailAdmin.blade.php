@@ -65,89 +65,89 @@
                 document.getElementById('user-name-dropdown').textContent = name;
                 document.getElementById('name-head').textContent = name;
             </script>
-              <li>
-                  <hr class="dropdown-divider">
-              </li>
-              <li>
-                  <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                      <i class="bi bi-person"></i>
-                      <span id="user-profile">My Profile</span>
-                  </a>
-              </li>
-              <li>
-                  <hr class="dropdown-divider">
-              </li>
-              <li>
-                  <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                      <i class="bi bi-gear"></i>
-                      <span>Account Settings</span>
-                  </a>
-              </li>
-              <li>
-                  <hr class="dropdown-divider">
-              </li>
-              <li>
-                  <hr class="dropdown-divider">
-              </li>
-              <li>
-                  <a class="dropdown-item d-flex align-items-center" href="#" onclick="logout()">
-                      <i class="bi bi-box-arrow-right"></i>
-                      <span>Sign Out</span>
-                  </a>
-                  <script>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                    <i class="bi bi-person"></i>
+                    <span id="user-profile">My Profile</span>
+                </a>
+            </li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                    <i class="bi bi-gear"></i>
+                    <span>Account Settings</span>
+                </a>
+            </li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <a class="dropdown-item d-flex align-items-center" href="#" onclick="logout()">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Sign Out</span>
+                </a>
+                <script>
                     function logout() {
                       // Menghapus data pengguna dari localStorage saat logout
-                      localStorage.removeItem('name');
-                      localStorage.removeItem('token');
-                      localStorage.removeItem('role');
-                      localStorage.removeItem('id_role');
-                      localStorage.removeItem('npm');
-                      localStorage.removeItem('isLoggedIn');
-                      localStorage.removeItem('prodi')
-                      localStorage.removeItem('id_major')
-                      localStorage.removeItem('isAdmin')
-                      localStorage.removeItem('isUser')
-                      localStorage.removeItem('major_name')
+                    localStorage.removeItem('name');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('role');
+                    localStorage.removeItem('id_role');
+                    localStorage.removeItem('npm');
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('prodi')
+                    localStorage.removeItem('id_major')
+                    localStorage.removeItem('isAdmin')
+                    localStorage.removeItem('isUser')
+                    localStorage.removeItem('major_name')
                     
                       // Redirect ke halaman login atau halaman lain setelah logout
-                      window.location.href = "login";
+                    window.location.href = "login";
                     }
                     </script>
-              </li>
+            </li>
 
-          </ul><!-- End Profile Dropdown Items -->
+        </ul><!-- End Profile Dropdown Items -->
         </li><!-- End Profile Nav -->
 
-      </ul>
+    </ul>
     </nav><!-- End Icons Navigation -->
 
-  </header><!-- End Header -->
+</header><!-- End Header -->
 
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
-      <li class="nav-item mb-1">
-        <a class="nav-link collapsed" href="{{ route('peminjaman.index') }}">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-      
-      <li class="nav-item mb-1">
-        <a class="nav-link collapsed"  href="{{ route('peminjaman.index') }}">
-          <i class="bi bi-journal-text"></i>
-          <span>Peminjaman</span>
-        </a>
-      </li><!-- End Peminjaman Nav -->
-      
-      <li class="nav-item">
-        <a class="nav-link collapsed"  href="{{ route('peminjaman.index') }}">
-          <i class="bi bi-person"></i>
-          <span>Profile</span>
-        </a>
-      </li><!-- End Profile Nav -->
+        <li class="nav-item mb-1">
+            <a class="nav-link collapsed" href="{{ route('Admin.index') }}">
+              <i class="bi bi-grid"></i>
+              <span>Dashboard</span>
+            </a>
+          </li><!-- End Dashboard Nav -->
+          
+          <li class="nav-item mb-1">
+            <a class="nav-link collapsed" href="{{ route('AdminPeminjaman.index') }}">
+                <i class="bi bi-journal-text"></i>
+            <span>Peminjaman</span>
+            </a>
+          </li><!-- End Peminjaman Nav -->
+          
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('AdminProfile.index') }}">
+              <i class="bi bi-person"></i>
+              <span>Profile</span>
+            </a>
+          </li><!-- End Profile Nav -->
 
       
 
@@ -172,7 +172,7 @@
             <div class="row">
                 <div class="col-lg-10 mx-auto">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body px-5 py-5">
                             <h4 class="mt-3">Detail Peminjaman</h4>
                             <p>Nama                  : {{ $peminjaman->user->name }}</p>
                             <p>NPM                   : {{ $peminjaman->user->npm }}</p>
@@ -189,9 +189,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{{ route('peminjaman.index') }}" class="btn btn-primary me-md-2 mb-3"  type="button">Kembali</a>
-                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end pe-5">
+                          <a href="{{ route('AdminPeminjaman.index') }}" class="btn btn-secondary me-md-2 mb-3" type="button">Kembali</a>
+                      
+                          <form action="{{ route('AdminPeminjaman.show', $peminjaman->id) }}" method="get">
+                            @csrf
+                            <button type="submit" name="tolak" class="btn btn-danger me-md-2 mb-3">Tolak</button>
+                            <button type="submit" name="setuju" class="btn btn-success me-md-2 mb-3">Setuju</button>
+                          </form>
+                      </div>
+                      
                     </div>
                 </div>
             </div>

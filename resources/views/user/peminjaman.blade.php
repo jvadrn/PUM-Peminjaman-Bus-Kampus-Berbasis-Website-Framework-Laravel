@@ -138,7 +138,7 @@
       
       <li class="nav-item mb-1">
         <a class="nav-link collapsed"  href="{{ route('peminjaman.index') }}">
-          <i class="bi bi-grid"></i>
+          <i class="bi bi-journal-text"></i>
           <span>Peminjaman</span>
         </a>
       </li><!-- End Peminjaman Nav -->
@@ -177,7 +177,7 @@
             <form class="d-flex" role="search" action="{{ route('peminjaman.index') }}" method="GET">
               <input class="form-control me-2" type="search" placeholder="Cari" aria-label="Cari" name="query">
               <button class="btn btn-outline-success" type="submit">Cari</button>
-          </form>          
+            </form>          
           </div>
           <div class="col-md-3 ">
            
@@ -214,11 +214,11 @@
         <td>{{ $peminjam->created_at }}</td>
         <td>
             @if($peminjam->id_status == 1)
-                Pengajuan
+                <p class="statusPengajuan">Pengajuan</p>
             @elseif($peminjam->id_status == 2)
-                Diterima
+                <p class="statusDiterima" style="color: green">Diterima</p>
             @elseif($peminjam->id_status == 3)
-                Ditolak
+                <p class="statusDitolak">Ditolak</p>
             @else
                 Status Tidak Dikenal
             @endif

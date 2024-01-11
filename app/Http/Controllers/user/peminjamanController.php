@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\user\master_major;
 use App\Models\user\user;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
@@ -21,22 +21,32 @@ class peminjamanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        // Mendapatkan objek User yang sedang login
-        $user = Auth::user();
-    
-        // Memeriksa apakah user ada sebelum melanjutkan
-        if ($user) {
-            // Menggunakan relasi untuk mendapatkan data terkait
-            $bookings = $user->bookings;
-    
-            return view('user.peminjaman', compact('bookings'));
-        } else {
-            // Handle jika user tidak ditemukan (mungkin mengarahkan ke halaman login, dll.)
-            return redirect()->route('login');
-        }
+    public function index(Request $request)
+{
+    // Mendapatkan objek User yang sedang login
+    $user = Auth::user();
+
+    // Memeriksa apakah user ada sebelum melanjutkan
+    if ($user) {
+        // Mendapatkan nilai dari query string 'query'
+        $query = $request->input('query', ''); // Menyertakan nilai default string kosong jika query tidak ada
+
+        $bookings = Booking::with('user')
+            ->where('user_id', $user->id)
+            ->when($query, function ($queryBuilder) use ($query) {
+                $queryBuilder->where('nameActivity', 'like', "%$query%");
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('user.peminjaman', compact('bookings', 'query'));
+    } else {
+        // Handle jika user tidak ditemukan (mungkin mengarahkan ke halaman login, dll.)
+        return redirect()->route('login');
     }
+}
+
+
     
 //     public function index(Request $request)
 // {

@@ -37,7 +37,7 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="{{ route('dashboard.index') }}" class="logo d-flex align-items-center">
         <img src="assets/img/logo.png" alt="">
         <span class="d-none d-lg-block">BusNela</span>
       </a>
@@ -46,65 +46,74 @@
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
+        <!-- ... Bagian lain dari dropdown ... -->
+      <li class="nav-item dropdown pe-3">
+        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+          <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+          <span class="d-none d-md-block dropdown-toggle ps-2" id="user-name-dropdown">
+              <!-- Nama pengguna akan ditampilkan di sini -->
+          </span>
+      </a>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <script>
+              // Mengambil data nama pengguna dari Local Storage
+              const name = localStorage.getItem('name');
+              // Menetapkan nama pengguna ke elemen dengan ID 'user-name-dropdown'
+              document.getElementById('user-name-dropdown').textContent = name;
+              document.getElementById('name-head').textContent = name;
 
-        <li class="nav-item dropdown pe-3">
+            </script>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                    <i class="bi bi-person"></i>
+                    <span id="user-profile">My Profile</span>
+                </a>
+            </li>
+          
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <a class="dropdown-item d-flex align-items-center" href="#" onclick="logout()">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Sign Out</span>
+                </a>
+                <script>
+                function logout() {
+                    // Menghapus data pengguna dari localStorage saat logout
+                    localStorage.removeItem('name');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('role');
+                    localStorage.removeItem('id_role');
+                    localStorage.removeItem('npm');
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('prodi')
+                    localStorage.removeItem('id_major')
+                    localStorage.removeItem('isAdmin')
+                    localStorage.removeItem('isUser')
+                    localStorage.removeItem('major_name')
+                  
+                    // Redirect ke halaman login atau halaman lain setelah logout
+                    window.location.href = "login";
+                  }
+                  </script>
+            </li>
+        </ul><!-- End Profile Dropdown Items -->
+      </li><!-- End Profile Nav -->
+      <!-- ... Bagian lainnya ... -->
 
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Jevi Adriansyah</span>
-          </a><!-- End Profile Iamge Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
-            </li>
 
           </ul><!-- End Profile Dropdown Items -->
         </li><!-- End Profile Nav -->
 
       </ul>
-    </nav><!-- End Icons Navigation -->
+    </nav>
 
   </header><!-- End Header -->
 
@@ -114,21 +123,21 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item mb-1">
-        <a class="nav-link collapsed" href="indexAdmin">
+        <a class="nav-link collapsed" href="{{ route('Admin.index') }}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
       
       <li class="nav-item mb-1">
-        <a class="nav-link collapsed" href="peminjamanAdmin">
-          <i class="bi bi-grid"></i>
+        <a class="nav-link collapsed" href="{{ route('AdminPeminjaman.index') }}">
+          <i class="bi bi-journal-text"></i>
           <span>Peminjaman</span>
         </a>
       </li><!-- End Peminjaman Nav -->
       
       <li class="nav-item">
-        <a class="nav-link collapsed" href="profileAdmin">
+        <a class="nav-link collapsed" href="{{ route('AdminProfile.index') }}">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
@@ -146,7 +155,7 @@
       <h1>Profile</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="">Home</a></li>
           <li class="breadcrumb-item active">Profile</li>
         </ol>
       </nav>
@@ -157,30 +166,21 @@
           <div class="col-md-10 mx-auto">
             <div class="card">
               <div class="card-header">
-                Profile Mahasiswa
+                Profile Admin
+                <h6 class="name"></h6>
               </div>
               <div class="card-body">
                 <form>
                   <div class="mb-3 mt-3">
-                    <label for="nama" class="form-label">Nama</label>
-                    <input type="nama" class="form-control" id="nama" aria-describedby="nama" value="Jevi Adriansyah" readonly>
+                      <label for="nama" class="form-label">Nama</label>
+                      <input type="text" class="form-control" id="name" name="name" aria-describedby="nama" readonly>
                   </div>
+              
                   <div class="mb-3">
-                    <label for="npm" class="form-label">NPM</label>
-                    <input type="npm" class="form-control" id="npm" aria-describedby="npm" value="21753017" readonly>
+                      <label for="npm" class="form-label">NPM</label>
+                      <input type="text" class="form-control" id="npm-value" name="npm" aria-describedby="npm" readonly>
                   </div>
-                  <div class="mb-3 mt-3">
-                    <label for="prodi" class="form-label">Prodi</label>
-                    <input type="prodi" class="form-control" id="prodi" aria-describedby="prodi" value="Manajemen Informatika" readonly>
-                  </div>
-                  <div class="mb-3">
-                    <label for="jurusan" class="form-label">Jurusan</label>
-                    <input type="jurusan" class="form-control" id="jurusan" aria-describedby="jurusan" value="Ekonomi dan Bisnis" readonly>
-                  </div>
-                  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a class="btn btn-primary" href="editProfile" role="button">Edit</a>
-                  </div>
-                </form>
+              </form>
               </div>
             </div>
           </div>
@@ -217,6 +217,24 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script>
+    // Mendapatkan data dari localStorage
+    document.addEventListener('DOMContentLoaded', function () {
+    // Kode JavaScript untuk mengambil dan mengatur data dari localStorage
+    const name = localStorage.getItem('name');
+    const npm = localStorage.getItem('npm');
+    const prodi = localStorage.getItem('prodi');
+    const major = localStorage.getItem('major_name');
+
+    // Menampilkan data di formulir
+    document.getElementById('name').value = name;
+    document.getElementById('npm-value').value = npm;
+    document.getElementById('prodi').value = prodi;
+    document.getElementById('major').value = major;
+  });
+
+</script>
 
 </body>
 

@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\user;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\booking\booking;
-use App\Models\user\user;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class dashboardController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,23 +14,10 @@ class dashboardController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-{
-    $user = Auth::user();
-
-    if ($user) {
-        // Jika user login, ambil booking-nya
-        $bookings = Booking::where('user_id', $user->id)
-            ->with('user')
-            ->orderBy('created_at', 'desc')
-            ->take(2)
-            ->get();
-
-        return view('user.index', compact('bookings'));
-    } else {
-        // Jika tidak ada user yang login, lakukan sesuatu (misalnya, redirect ke halaman login)
-        return redirect()->route('login');
+    { 
+        $bookings = booking::with('user')->orderBy('created_at', 'desc')->take(5)->get();
+        return view('admin.indexAdmin', compact('bookings'));
     }
-}
 
     /**
      * Show the form for creating a new resource.
@@ -63,8 +48,7 @@ class dashboardController extends Controller
      */
     public function show($id)
     {
-        $data = booking::where('nim',$id)->first();
-        return view('detail', compact('data', $data));
+        //
     }
 
     /**

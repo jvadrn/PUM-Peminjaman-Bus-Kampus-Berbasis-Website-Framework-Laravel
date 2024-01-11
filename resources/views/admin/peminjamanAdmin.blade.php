@@ -46,62 +46,66 @@
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
+        <!-- ... Bagian lain dari dropdown ... -->
+      <li class="nav-item dropdown pe-3">
+        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+          <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+          <span class="d-none d-md-block dropdown-toggle ps-2" id="user-name-dropdown">
+              <!-- Nama pengguna akan ditampilkan di sini -->
+          </span>
+      </a>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <script>
+              // Mengambil data nama pengguna dari Local Storage
+              const name = localStorage.getItem('name');
+              // Menetapkan nama pengguna ke elemen dengan ID 'user-name-dropdown'
+              document.getElementById('user-name-dropdown').textContent = name;
+              document.getElementById('name-head').textContent = name;
 
-        <li class="nav-item dropdown pe-3">
-
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Jevi Adriansyah</span>
-          </a><!-- End Profile Iamge Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
+            </script>
+            <li>
+                <hr class="dropdown-divider">
             </li>
             <li>
-              <hr class="dropdown-divider">
+                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                    <i class="bi bi-person"></i>
+                    <span id="user-profile">My Profile</span>
+                </a>
             </li>
-
+          
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
-              </a>
+                <hr class="dropdown-divider">
             </li>
             <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
+                <hr class="dropdown-divider">
             </li>
             <li>
-              <hr class="dropdown-divider">
+                <a class="dropdown-item d-flex align-items-center" href="#" onclick="logout()">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Sign Out</span>
+                </a>
+                <script>
+                function logout() {
+                    // Menghapus data pengguna dari localStorage saat logout
+                    localStorage.removeItem('name');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('role');
+                    localStorage.removeItem('id_role');
+                    localStorage.removeItem('npm');
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('prodi')
+                    localStorage.removeItem('id_major')
+                    localStorage.removeItem('isAdmin')
+                    localStorage.removeItem('isUser')
+                    localStorage.removeItem('major_name')
+                  
+                    // Redirect ke halaman login atau halaman lain setelah logout
+                    window.location.href = "login";
+                  }
+                  </script>
             </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
-            </li>
-
-          </ul><!-- End Profile Dropdown Items -->
-        </li><!-- End Profile Nav -->
+        </ul><!-- End Profile Dropdown Items -->
+      </li>
 
       </ul>
     </nav><!-- End Icons Navigation -->
@@ -114,26 +118,25 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item mb-1">
-        <a class="nav-link collapsed" href="indexAdmin">
+        <a class="nav-link collapsed" href="{{ route('Admin.index') }}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
       
       <li class="nav-item mb-1">
-        <a class="nav-link collapsed"  href="peminjamanAdmin">
+        <a class="nav-link collapsed" href="{{ route('AdminPeminjaman.index') }}">
           <i class="bi bi-grid"></i>
           <span>Peminjaman</span>
         </a>
       </li><!-- End Peminjaman Nav -->
       
       <li class="nav-item">
-        <a class="nav-link collapsed"  href="profileAdmin">
+        <a class="nav-link collapsed" href="{{ route('AdminProfile.index') }}">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
       </li><!-- End Profile Nav -->
-
       
 
     </ul>
@@ -156,10 +159,10 @@
       <div class="row mt-5">
         <div class="col-md-4 mx-auto">
             <!-- Pindahkan formulir pencarian di sini -->
-            <form class="d-flex " role="search">
-              <input class="form-control me-2" type="search" placeholder="Cari" aria-label="Cari">
+            <form class="d-flex" role="search" action="{{ route('AdminPeminjaman.index') }}" method="GET">
+              <input class="form-control me-2" type="search" placeholder="Cari" aria-label="Cari" name="query">
               <button class="btn btn-outline-success" type="submit">Cari</button>
-            </form>
+            </form>  
         </div>
         <div class="col-md-3">
             <!-- Pindahkan formulir pencarian di sini -->
@@ -198,53 +201,60 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    1
-                  </td>
-                  <td>
-                   Jevi Adriansyah
-                  </td>
-                  <td>
-                    12 Desember 2023
-                  </td>
-                  <td>
-                    Diterima
-                  </td>
-                  <td>
-                    <div class="d-grid gap-1 col-3 ">
-                      <button class="btn btn-sm btn-success" type="button">Detail</button>
-                      <button class="btn btn-sm btn-primary" type="button">Edit</button>
-                      <button class="btn btn-sm btn-danger" type="button">Hapus</button>
-                    </div>
-                    
-                  </td>
-                </tr>
-                <tbody>
-                  <tr>
-                    <td>
-                      2
-                    </td>
-                    <td>
-                     Adriansyah
-                    </td>
-                    <td>
-                      12 Januari 2024
-                    </td>
-                    <td>
-                      Pengajuan
-                    </td>
-                    <td>
-                      <div class="d-grid gap-1 col-3 ">
-                        <button class="btn btn-sm btn-success" type="button">Detail</button>
-                        <button class="btn btn-sm btn-primary" type="button">Edit</button>
-                        <button class="btn btn-sm btn-danger" type="button">Hapus</button>
-                      </div>
-                      
-                    </td>
-                  </tr>
+                @foreach($bookings as $peminjam)
+                      <tr>
+                          <td>{{ $loop->iteration }}</td>
+                          <td>
+                              @if($peminjam->user)
+                                  {{ $peminjam->user->name }}
+                              @else
+                                  User Not Found
+                              @endif
+                          </td>
+                          <td>{{ $peminjam->created_at }}</td>
+                          <td>
+                              @if($peminjam->id_status == 1)
+                                  Pengajuan
+                              @elseif($peminjam->id_status == 2)
+                                  Diterima
+                              @elseif($peminjam->id_status == 3)
+                                  Ditolak
+                              @else
+                                  Status Tidak Dikenal
+                              @endif
+                          </td>
+                          <td>
+                              <div class="d-grid gap-1 col-3">
+                                  <a class="btn btn-sm btn-success" href="{{ route('AdminPeminjaman.show', $peminjam->id) }}">Detail</a>
+                              </div>
+                          </td>
+                      </tr>
+                  @endforeach
               </tbody>
             </table>
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-start mt-3">
+                <!-- Tautan ke halaman sebelumnya -->
+                @if ($bookings->previousPageUrl())
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $bookings->previousPageUrl() }}" aria-label="Previous">Previous</a>
+                    </li>
+                @else
+                    <li class="page-item disabled">
+                        <span class="page-link">Previous</span>
+                    </li>
+                @endif
+            
+                <!-- Tautan ke setiap halaman -->
+                @foreach ($bookings->getUrlRange(1, $bookings->lastPage()) as $page => $url)
+                    <li class="page-item {{ $page == $bookings->currentPage() ? 'active' : '' }}">
+                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                    </li>
+                @endforeach
+            
+                <!-- Tautan ke halaman berikutnya -->
+             
+            
           </div>
         </div>
         </div>

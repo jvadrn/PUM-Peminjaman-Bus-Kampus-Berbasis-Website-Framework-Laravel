@@ -46,66 +46,66 @@
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
+        <!-- ... Bagian lain dari dropdown ... -->
+      <li class="nav-item dropdown pe-3">
+        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+          <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+          <span class="d-none d-md-block dropdown-toggle ps-2" id="user-name-dropdown">
+              <!-- Nama pengguna akan ditampilkan di sini -->
+          </span>
+      </a>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <script>
+              // Mengambil data nama pengguna dari Local Storage
+              const name = localStorage.getItem('name');
+              // Menetapkan nama pengguna ke elemen dengan ID 'user-name-dropdown'
+              document.getElementById('user-name-dropdown').textContent = name;
+              document.getElementById('name-head').textContent = name;
 
-        <li class="nav-item dropdown pe-3">
-
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Jevi Adriansyah</span>
-          </a><!-- End Profile Iamge Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
+            </script>
+            <li>
+                <hr class="dropdown-divider">
             </li>
             <li>
-              <hr class="dropdown-divider">
+                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                    <i class="bi bi-person"></i>
+                    <span id="user-profile">My Profile</span>
+                </a>
             </li>
-
+          
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
-              </a>
+                <hr class="dropdown-divider">
             </li>
             <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
+                <hr class="dropdown-divider">
             </li>
             <li>
-              <hr class="dropdown-divider">
+                <a class="dropdown-item d-flex align-items-center" href="#" onclick="logout()">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Sign Out</span>
+                </a>
+                <script>
+                function logout() {
+                    // Menghapus data pengguna dari localStorage saat logout
+                    localStorage.removeItem('name');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('role');
+                    localStorage.removeItem('id_role');
+                    localStorage.removeItem('npm');
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('prodi')
+                    localStorage.removeItem('id_major')
+                    localStorage.removeItem('isAdmin')
+                    localStorage.removeItem('isUser')
+                    localStorage.removeItem('major_name')
+                  
+                    // Redirect ke halaman login atau halaman lain setelah logout
+                    window.location.href = "login";
+                  }
+                  </script>
             </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
-            </li>
-
-          </ul><!-- End Profile Dropdown Items -->
-        </li><!-- End Profile Nav -->
-
-      </ul>
-    </nav><!-- End Icons Navigation -->
-
+        </ul><!-- End Profile Dropdown Items -->
+      </li>
   </header><!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
@@ -114,21 +114,21 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item mb-1">
-        <a class="nav-link collpased" href="indexAdmin">
+        <a class="nav-link collapsed" href="{{ route('Admin.index') }}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
       
       <li class="nav-item mb-1">
-        <a class="nav-link collapsed" href="peminjamanAdmin">
-          <i class="bi bi-grid"></i>
+        <a class="nav-link collapsed" href="{{ route('AdminPeminjaman.index') }}">
+          <i class="bi bi-journal-text"></i>
           <span>Peminjaman</span>
         </a>
       </li><!-- End Peminjaman Nav -->
       
       <li class="nav-item">
-        <a class="nav-link collapsed" href="profileAdmin">
+        <a class="nav-link collapsed" href="{{ route('AdminProfile.index') }}">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
@@ -155,36 +155,31 @@
     <section class="section dashboard">
       <div class="row">
         <!-- Left side columns -->
-        <div class="col-lg-12 my-3">
-            <h1 class="text-center">Data Pengajuan</h1>
-        <!-- Right side columns -->
-        </div>
-        <div class="row mx-auto">
-            <div class="col-md-3 mx-auto">
-                <div class="card" style="width: 15rem;">
-                    <div class="card-body">
-                      <h2 class="card-title text-center">Total Pengajuan</h2>
-                      <h1 class="text-center"><b>50</b></h1>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-md-3 mx-auto">
-                <div class="card" style="width: 15rem;">
-                    <div class="card-body">
-                      <h2 class="card-title text-center">Pengajuan Diterima</h2>
-                      <h1 class="text-center"><b>35</b></h1>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-md-3 mx-auto">
-                <div class="card" style="width: 15rem;,">
-                    <div class="card-body">
-                      <h2 class="card-title text-center">Pengajuan Ditolak</h2>
-                      <h1 class="text-center"><b>15</b></h1>
-                    </div>
-                  </div>
-            </div>
-        </div>
+        <div class="col-md-3 mx-auto">
+          <div class="card" style="width: 15rem;">
+              <div class="card-body">
+                  <h2 class="card-title text-center">Total Pengajuan</h2>
+                  <h1 class="text-center"><b></b></h1>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-3 mx-auto">
+          <div class="card" style="width: 15rem;">
+              <div class="card-body">
+                  <h2 class="card-title text-center">Pengajuan Diterima</h2>
+                  <h1 class="text-center"><b></b></h1>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-3 mx-auto">
+          <div class="card" style="width: 15rem;">
+              <div class="card-body">
+                  <h2 class="card-title text-center">Pengajuan Ditolak</h2>
+                  <h1 class="text-center"><b></b></h1>
+              </div>
+          </div>
+      </div>
+      
         <div class="row mt-5">
             <div class="col-lg-10 mx-auto">
               <div class="card mb-5 mt-2 pb-5 pt-2 px-4">
@@ -199,47 +194,31 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        1
-                      </td>
-                      <td>
-                       Jevi Adriansyah
-                      </td>
-                      <td>
-                        12 Desember 2023
-                      </td>
-                      <td>
-                        Diterima
-                      </td>
-                      <td>
-                        <div class="d-grid gap-1 col-3 ">
-                          <button class="btn btn-sm btn-success" type="button">Detail</button>
+                    @foreach($bookings as $peminjam)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $peminjam->user ? $peminjam->user->name : 'User Not Found' }}</td>
+                    <td>{{ $peminjam->created_at }}</td>
+                    <td>
+                        @if($peminjam->id_status == 1)
+                            Pengajuan
+                        @elseif($peminjam->id_status == 2)
+                            Diterima
+                        @elseif($peminjam->id_status == 3)
+                            Ditolak
+                        @else
+                            Status Tidak Dikenal
+                        @endif
+                    </td>
+                    <td>
+                        <div class="d-grid gap-1 col-3">
+                          <a class="btn btn-sm btn-success" href="{{ route('peminjaman.show', $peminjam->id) }}">Detail</a>
                         </div>
-                        
-                      </td>
-                    </tr>
-                    <tbody>
-                      <tr>
-                        <td>
-                          2
-                        </td>
-                        <td>
-                         Adriansyah
-                        </td>
-                        <td>
-                          12 Januari 2024
-                        </td>
-                        <td>
-                          Pengajuan
-                        </td>
-                        <td>
-                          <div class="d-grid gap-1 col-3 ">
-                            <button class="btn btn-sm btn-success" type="button">Detail</button>
-                          </div>
+                    </td>
+                </tr>
+            @endforeach
                           
-                        </td>
-                      </tr>
+                      
                   </tbody>
                 </table>
               </div>

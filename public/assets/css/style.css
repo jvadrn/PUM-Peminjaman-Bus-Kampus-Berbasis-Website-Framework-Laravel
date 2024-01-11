@@ -13,7 +13,15 @@
   margin-bottom: 90px;
 } */
 
-
+.stastusDiterima{
+  color: green;
+}
+.stastusDitolak{
+  color: red;
+}
+.stastusPengajuan{
+  color: blue;
+}
 :root {
   scroll-behavior: smooth;
 }
