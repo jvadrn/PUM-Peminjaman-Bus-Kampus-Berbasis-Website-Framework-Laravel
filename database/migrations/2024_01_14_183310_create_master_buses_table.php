@@ -13,17 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('booking', function (Blueprint $table) {
+        Schema::create('master_bus', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('destination');
-            $table->string('image_latter');
-            $table->integer('id_status');
-            $table->integer('id_major');
-            $table->integer('id_bus');
-            $table->timestamp('departure_date')->nullable();
-            $table->timestamp('date_finish')->nullable();
-            $table->integer('user_id');
             $table->timestamps();
         });
     }
@@ -35,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('booking');
+        Schema::dropIfExists('master_buses');
     }
 };

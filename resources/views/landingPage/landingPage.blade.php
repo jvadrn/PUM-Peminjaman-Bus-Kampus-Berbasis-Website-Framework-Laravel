@@ -18,6 +18,7 @@
 
     <!-- css -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="assets/css/cssLandingPage.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   </head>
@@ -25,7 +26,7 @@
     {{-- Start Navbar --}}
     <nav class="navbar navbar-expand-lg navbar-dark bg-transparent position-fixed w-100" data-bs-theme="dark">
       <div class="container">
-        <a class="navbar-brand" href="#">BusNela</a>
+        <img src="assets/img/busnela.png" alt="" height="50">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -44,14 +45,6 @@
               <a class="nav-link" href="#">Tentang Kami</a>
             </li>
           </ul>
-          <div>
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <li class="nav-item mx-3">
-                    <a class="btn bg-transparent" href="login">Login</a>
-                </li>
-              </li>
-          </div>
         </div>
       </div>
     </nav>
@@ -65,7 +58,7 @@
           <h1>"Tumpangkan Impianmu, Selesaikan Perjalananmu!"</h1>
           <p><span class="fw-bold">BusNela</span> Layanan peminjaman bus kampus ! Menawarkan solusi transportasi yang efisien dan nyaman untuk keperluan perjalanan kelompok di dalam dan sekitar kampus.</p>
           <div class="button-sewa text-center">
-            <a class="btn" href="" role="button"><span class="text fw-bold">Sewa Sekarang</span></a>
+            <a class="btn" href="login" role="button"><span class="text fw-bold">Sewa Sekarang</span></a>
           </div>
         </div>
         <div class="col-md-6">
@@ -122,22 +115,7 @@
     <section id="hero" class="my-5">
       <div class="container ">
         <div class="row">
-          <div class="col md-12">
-            <h1 class="text-center text-light">Promo Perjalanan</h1>
-            <div id="carouselExampleSlidesOnly" class="carousel slide my-3" data-bs-ride="carousel">
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img src="https://www.bluebirdgroup.com/storage/promotion/656d47ff13a6f.jpg" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                  <img src="https://www.bluebirdgroup.com/storage/promotion/656da19f9afba.jpg" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                  <img src="https://www.bluebirdgroup.com/storage/news/651ceae5357a7.jpg" class="d-block w-100" alt="...">
-                </div>
-              </div>
-            </div>
-          </div>
+          
         </div>
       </div>
     </section>

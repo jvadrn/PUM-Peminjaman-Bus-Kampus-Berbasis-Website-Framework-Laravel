@@ -19,50 +19,54 @@ class AuthController extends Controller
     }
 
     public function loginPost(Request $request)
-{
-    $credentials = $request->only('npm', 'password');
-
-    if (Auth::attempt($credentials)) {
-        $user = Auth::user();
-
-        // Menggunakan eager loading untuk mengambil relasi Major
-        $userWithMajor = User::with('major')->find($user->id);
-
-        // Menentukan nilai untuk majorName
-        $majorName = $userWithMajor->major ? $userWithMajor->major->name : null;
-
-        // Menyusun data tambahan berdasarkan peran (role)
-        $additionalData = [
-            'user_id' => $userWithMajor->id,
-            'isLoggedIn' => true,
-            'id_role' => $userWithMajor->id_role,
-            'npm' => $userWithMajor->npm,
-            'name' => $userWithMajor->name,
-        ];
-
-        // Jika pengguna adalah admin (id_role === 1)
-        if ($userWithMajor->id_role === 1) {
-            // Hanya menyimpan data yang sesuai untuk admin
-            $additionalData['isAdmin'] = true;
-        } else {
-            // Jika bukan admin, tambahkan data tambahan
-            $additionalData['id_major'] = $userWithMajor->id_major;
-            $additionalData['prodi'] = $userWithMajor->prodi;
-            $additionalData['major_name'] = $majorName;
-            $additionalData['isUser'] = true;
+    {
+        // Menentukan field kredensial berdasarkan peran (role)
+        $credentialField = $request->input('id_role') == 1 ? 'name' : 'npm';
+        $credentials = $request->only($credentialField, 'password');
+    
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+    
+            // Menggunakan eager loading untuk mengambil relasi Major
+            $userWithMajor = User::with('major')->find($user->id);
+    
+            // Menentukan nilai untuk majorName
+            $majorName = $userWithMajor->major ? $userWithMajor->major->name : null;
+    
+            // Menyusun data tambahan berdasarkan peran (role)
+            $additionalData = [
+                'user_id' => $userWithMajor->id,
+                'isLoggedIn' => true,
+                'id_role' => $userWithMajor->id_role,
+                'npm' => $userWithMajor->npm,
+                'name' => $userWithMajor->name,
+            ];
+    
+            // Jika pengguna adalah admin (id_role === 1)
+            if ($userWithMajor->id_role === 1) {
+                // Hanya menyimpan data yang sesuai untuk admin
+                $additionalData['isAdmin'] = true;
+            } else {
+                // Jika bukan admin, tambahkan data tambahan
+                $additionalData['id_major'] = $userWithMajor->id_major;
+                $additionalData['prodi'] = $userWithMajor->prodi;
+                $additionalData['major_name'] = $majorName;
+                $additionalData['isUser'] = true;
+            }
+    
+            // Menggabungkan data tambahan ke dalam response
+            $responseData = [
+                'success' => true,
+                'additional_data' => $additionalData,
+            ];
+    
+            return response()->json($responseData);
         }
-
-        // Menggabungkan data tambahan ke dalam response
-        $responseData = [
-            'success' => true,
-            'additional_data' => $additionalData,
-        ];
-
-        return response()->json($responseData);
+    
+        return response()->json(['success' => false, 'error' => 'Invalid login, Coba lagi']);
     }
+    
 
-    return response()->json(['success' => false, 'error' => 'Invalid login credentials']);
-}
 
 
 

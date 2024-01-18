@@ -4,6 +4,8 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\booking\booking;
+use App\Models\booking\Pesan;
+use App\Models\bus\master_bus;
 use Illuminate\Support\Facades\Validator;
 use App\Models\user\master_major;
 use App\Models\user\user;
@@ -74,7 +76,8 @@ class peminjamanController extends Controller
     {
         $data = user::all();
         $majors = master_major::all();
-        return view('user.addBooking', compact('majors','data'));
+        $buses = master_bus::all();
+        return view('user.addBooking', compact('majors','data','buses'));
         
     }
 
@@ -85,39 +88,44 @@ class peminjamanController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function store(Request $request)
-    {
-        
-        $validator = Validator::make($request->all(), [
-            'nameActivity' => 'required|string',
-            'destination' => 'required|string',
-            'departure_date' => 'required|date',
-            'date_finish' => 'required|date|after:departure_date',
-            'image_latter' => 'required|image|mimes:png,jpg,jpeg,svg|max:2048',
+     public function store(Request $request)
+     {
+         $validator = Validator::make($request->all(), [
+             'nameActivity' => 'required|string',
+             'destination' => 'required|string',
+             'departure_date' => 'required|date',
+             'date_finish' => 'required|date|after:departure_date',
+             'image_latter' => 'required|image|mimes:png,jpg,jpeg,svg|max:2048',
+             'id_bus' => 'required', // Sesuaikan ini dengan aturan validasi yang sesuai
+             'user_id' => 'required', // Sesuaikan ini dengan aturan validasi yang sesuai
              // ... tambahkan aturan validasi lainnya ...
-        ]);
-    
-        if ($validator->fails()) {
-            return redirect()->route('peminjaman.index')
-                ->withErrors($validator)
-                ->withInput();
-        }
-        
-        $file = $request->file('image_latter')->store('images', 'public');
-        $data = [
-            'nameActivity' => $request->input('nameActivity'),
-            'destination' => $request->input('destination'),
-            'departure_date' => $request->input('departure_date'),
-            'date_finish' => $request->input('date_finish'),
-            'image_latter' => $file,
-            'id_status' => 1, // Sesuaikan ini dengan nama sebenarnya
-            'id_major' => null, // Sesuaikan ini dengan nama sebenarnya
-            'user_id' =>$request->input('user_id'),
-        ];
-        booking::create($data);
-
-        return redirect()->route('peminjaman.index')->with('success', 'Berhasil menambahkan data');
-    }
+         ]);
+     
+         if ($validator->fails()) {
+             return redirect()->route('peminjaman.index')
+                 ->withErrors($validator)
+                 ->withInput();
+         }
+     
+         $file = $request->file('image_latter')->store('images', 'public');
+     
+         $data = [
+             'nameActivity' => $request->input('nameActivity'),
+             'destination' => $request->input('destination'),
+             'departure_date' => $request->input('departure_date'),
+             'date_finish' => $request->input('date_finish'),
+             'image_latter' => $file,
+             'id_bus' => $request->input('id_bus'), // Sesuaikan ini dengan nama sebenarnya
+             'id_status' => 1, // Sesuaikan ini dengan nama sebenarnya
+             'id_major' => null, // Sesuaikan ini dengan nama sebenarnya
+             'user_id' => $request->input('user_id'),
+         ];
+     
+         booking::create($data);
+     
+         return redirect()->route('peminjaman.index')->with('success', 'Berhasil menambahkan data');
+     }
+     
     
 
 
@@ -128,20 +136,26 @@ class peminjamanController extends Controller
      * @return \Illuminate\Http\Response
      */
         // peminjamanController.php
-    public function show($id)
-    {
-        try {
-            // Temukan peminjaman berdasarkan ID
-            $peminjaman = booking::findOrFail($id);
+        public function show($id)
+{
+    try {
+        // Temukan peminjaman berdasarkan ID
+        $peminjaman = booking::findOrFail($id);
 
-            return view('user.detailBooking', compact('peminjaman'));
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return redirect()->route('peminjaman.index')->with('error', 'Data tidak ditemukan.');
-        } catch (\Exception $e) {
-            return redirect()->route('peminjaman.index')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-        }
+        // Temukan data bus terkait berdasarkan ID bus pada peminjaman
+        $bus = master_bus::findOrFail($peminjaman->id_bus);
+
+        // Ambil pesan penolakan jika ada
+        $pesanPenolakan = Pesan::where('peminjaman_id', $peminjaman->id)->first();
+
+        return view('user.detailBooking', compact('peminjaman', 'bus', 'pesanPenolakan'));
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return redirect()->route('peminjaman.index')->with('error', 'Data tidak ditemukan.');
+    } catch (\Exception $e) {
+        return redirect()->route('peminjaman.index')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
     }
-
+}
+        
 
     
 

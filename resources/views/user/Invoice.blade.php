@@ -175,15 +175,12 @@
                       <div class="card-body">
                         <div class="row mt-5">
                           <div class="col text-center mb-3">
-                            <h2><b>Detail Pengajuan</b></h2>
+                            <h2><b>Invoice</b></h2>
                           </div>
                         </div>
                         <div class="row px-5">
                           <div class="col-md-4">
                             <p>Nama</p>
-                            <p>NPM</p>
-                            <p>Jurusan</p>
-                            <p>Prodi</p>
                             <p>Nama Kegiatan</p>
                             <p>Tujuan Perjalanan</p>
                             <p>Tipe Bus</p>
@@ -192,9 +189,6 @@
                           </div>
                           <div class="col-md-4">
                             <p>: {{ $peminjaman->user->name }}</p>
-                            <p>: {{ $peminjaman->user->npm }}</p>
-                            <p>: {{ $peminjaman->user->prodi }}</p>
-                            <p>: {{ $peminjaman->user->major->name }}</p>
                         
                             <!-- Informasi Peminjaman -->
                             <p>: {{ $peminjaman->nameActivity }}</p>
@@ -204,24 +198,7 @@
                             <p>: {{ $peminjaman->date_finish }}</p>
                           </div>
                           <h5 class="mt-3"><b>Foto Surat Peminjaman :</b></h5>
-                        <div class="row">
-                          <div class="col-lg-4">
-                          </div>
-                            <div class="col-lg-6">
-                                <p style="widht:100px; height:250px;"><img src="{{ asset('storage/' . $peminjaman->image_latter) }}" alt="Foto Surat Peminjaman" width="300" height="200"></p>
-                            </div>
                         </div>
-                        </div>
-                        @if(isset($pesanPenolakan))
-                            <div class="alert alert-danger" role="alert">
-                                <div class="row mt-3">
-                                  <div class="col-md-3">
-                                    <strong>Peminjaman ditolak:</strong> 
-                                  </div>
-                                  <div class="col"><p>{{ $pesanPenolakan->pesan }}</p></div>
-                                </div>
-                            </div>
-                        @endif
                     
                         </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end pe-3">

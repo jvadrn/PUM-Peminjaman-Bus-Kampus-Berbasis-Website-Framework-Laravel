@@ -14,10 +14,18 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    { 
-        $bookings = booking::with('user')->orderBy('created_at', 'desc')->take(5)->get();
-        return view('admin.indexAdmin', compact('bookings'));
-    }
+{ 
+    $allCount = booking::count();
+    
+    $pendingCount = booking::where('id_status', 1)->count(); // Gantilah 1 dengan nilai yang sesuai
+    $approvedCount = booking::where('id_status', 2)->count(); // Gantilah 2 dengan nilai yang sesuai
+    $rejectedCount = booking::where('id_status', 3)->count(); // Gantilah 3 dengan nilai yang sesuai
+
+    $bookings = booking::with('user')->orderBy('created_at', 'desc')->take(5)->get();
+
+    return view('admin.indexAdmin', compact('bookings', 'pendingCount', 'approvedCount', 'rejectedCount','allCount'));
+}
+
 
     /**
      * Show the form for creating a new resource.

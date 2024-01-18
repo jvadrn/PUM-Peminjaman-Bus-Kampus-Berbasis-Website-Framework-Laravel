@@ -187,7 +187,7 @@
             <a href="{{ route('peminjaman.create') }}" class="btn btn-success">Tambah</a>
           </div>
         </div>
-        <div class="row">
+        <div class="row mt-3">
         <div class="col-lg-10 mx-auto">
           <div class="card mb-5 mt-2 pb-5 pt-2 px-4">
             <table class="table align-middle mb-0 bg-white">
@@ -195,7 +195,7 @@
                   <tr>
                       <th>No</th>
                       <th>Nama</th>
-                      <th>Tanggal</th>
+                      <th>Tanggal | Jam</th>
                       <th>Status</th>
                       <th>Actions</th>
                   </tr>
@@ -216,9 +216,9 @@
             @if($peminjam->id_status == 1)
                 <p class="statusPengajuan">Pengajuan</p>
             @elseif($peminjam->id_status == 2)
-                <p class="statusDiterima" style="color: green">Diterima</p>
+                <p class="statusDiterima" style="color: green"><b>Diterima</b></p>
             @elseif($peminjam->id_status == 3)
-                <p class="statusDitolak">Ditolak</p>
+                <p class="statusDitolak" style="color: red"><b>Ditolak</b></p>
             @else
                 Status Tidak Dikenal
             @endif

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\booking\booking;
+use App\Models\booking\Pesan;
+use App\Models\bus\master_bus;
 use Illuminate\Http\Request;
 
 class AdminPeminjamanController extends Controller
@@ -61,41 +63,56 @@ class AdminPeminjamanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
 {
     try {
         // Temukan peminjaman berdasarkan ID
         $peminjaman = booking::findOrFail($id);
+        $bus = master_bus::findOrFail($peminjaman->id_bus);
 
-        if (request()->isMethod('get')) {
-            // Jika formulir untuk menolak dikirim
-            if (request()->has('tolak')) {
-                // Lakukan logika penolakan, set id_status menjadi 2
-                $peminjaman->id_status = 3;
-                $peminjaman->save();
+        // Inisialisasi $downloadSuratUrl
+        $downloadSuratUrl = null;
 
-                // Redirect dengan memberi tahu bahwa peminjaman berhasil ditolak
-                return redirect()->route('AdminPeminjaman.index')->with('success', 'Peminjaman berhasil ditolak');
-            }
+        // Jika formulir untuk menolak dikirim
+        if ($request->isMethod('get') && $request->has('tolak')) {
+            // Ambil nilai pesan dari request
+            $pesanText = $request->input('pesan');
 
-            // Jika formulir untuk menyetujui dikirim
-            if (request()->has('setuju')) {
-                // Lakukan logika persetujuan, set id_status menjadi 3
-                $peminjaman->id_status = 2;
-                $peminjaman->save();
+            // Lakukan logika penolakan, set id_status menjadi 3
+            $peminjaman->id_status = 3;
+            $peminjaman->save();
 
-                // Redirect dengan memberi tahu bahwa peminjaman berhasil disetujui
-                return redirect()->route('AdminPeminjaman.index')->with('success', 'Peminjaman berhasil disetujui');
-            }
+            // Simpan pesan ke dalam tabel Pesan
+            Pesan::create([
+                'peminjaman_id' => $peminjaman->id,
+                'pesan' => $pesanText,
+            ]);
+
+            // Tetapkan URL unduhan
+            $downloadSuratUrl = route('download-surat', ['id' => $peminjaman->id]);
+
+            // Redirect dengan memberi tahu bahwa peminjaman berhasil ditolak
+            return redirect()->route('AdminPeminjaman.index')->with('success', 'Peminjaman berhasil ditolak');
         }
 
-        return view('admin.DetailAdmin', compact('peminjaman'));
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        return redirect()->route('AdminPeminjaman.index')->with('error', 'Data tidak ditemukan.');
+        // Jika formulir untuk menyetujui dikirim
+        if ($request->isMethod('get') && $request->has('setuju')) {
+            // Lakukan logika persetujuan, set id_status menjadi 2
+            $peminjaman->id_status = 2;
+            $peminjaman->save();
+
+            // Redirect dengan memberi tahu bahwa peminjaman berhasil disetujui
+            return redirect()->route('AdminPeminjaman.index')->with('success', 'Peminjaman berhasil disetujui');
+        }
+
+        // Load view atau lakukan logika lainnya jika metode bukan POST
+        return view('admin.DetailAdmin', compact('peminjaman', 'bus', 'downloadSuratUrl'));
     } catch (\Exception $e) {
-        return redirect()->route('AdminPeminjaman.index')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        // Handle error jika peminjaman tidak ditemukan atau terjadi kesalahan lainnya
+        return redirect()->route('AdminPeminjaman.index')->with('error', 'Terjadi kesalahan. Peminjaman tidak ditemukan.');
     }
 }
+
 
 
     /**

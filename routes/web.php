@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/landingPage', function () {
+    return view('landingPage');
+});
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/loginPost', [AuthController::class, 'loginPost'])->name('loginPost');
 
@@ -33,13 +36,12 @@ Route::get('peminjamanAdmin', function () {
 Route::get('admin/peminjaman/{id}/tolak', [AdminPeminjamanController::class, 'tolakPeminjaman'])->name('admin.peminjaman.tolak');
 Route::get('admin/peminjaman/{id}/setuju', [AdminPeminjamanController::class, 'setujuPeminjaman'])->name('admin.peminjaman.setuju');
 
-
-Route::resource('Admin',AdminController::class);
-Route::resource('AdminPeminjaman',AdminPeminjamanController::class);
-Route::resource('AdminProfile',AdminProfileController::class);
-Route::resource('peminjaman',peminjamanController::class);
-Route::resource('profile',profileController::class);
-Route::resource('dashboard',dashboardController::class);
-Route::get('landingPage',landingPageController::class);
-
+Route::middleware(['auth'])->group(function () {
+    Route::resource('Admin', AdminController::class);
+    Route::resource('AdminPeminjaman', AdminPeminjamanController::class);
+    Route::resource('AdminProfile', AdminProfileController::class);
+    Route::resource('peminjaman', PeminjamanController::class);
+    Route::resource('profile', ProfileController::class);
+    Route::resource('dashboard', DashboardController::class);
+});
 

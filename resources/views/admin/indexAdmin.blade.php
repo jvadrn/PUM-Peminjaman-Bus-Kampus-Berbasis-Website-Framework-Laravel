@@ -38,7 +38,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.html" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
+        <img src="assets/img/busnela.png" alt="" height="50">
         <span class="d-none d-lg-block">BusNela</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -49,7 +49,6 @@
         <!-- ... Bagian lain dari dropdown ... -->
       <li class="nav-item dropdown pe-3">
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-          <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
           <span class="d-none d-md-block dropdown-toggle ps-2" id="user-name-dropdown">
               <!-- Nama pengguna akan ditampilkan di sini -->
           </span>
@@ -152,14 +151,22 @@
       </nav>
     </div><!-- End Page Title -->
 
-    <section class="section dashboard">
+    <section class="section dashboard pt-3">
       <div class="row">
         <!-- Left side columns -->
         <div class="col-md-3 mx-auto">
           <div class="card" style="width: 15rem;">
               <div class="card-body">
+                  <h2 class="card-title text-center">Semua</h2>
+                  <h1 class="text-center"><b> {{ $allCount }}</b></h1>
+              </div>
+          </div>
+      </div>
+        <div class="col-md-3 mx-auto">
+          <div class="card" style="width: 15rem;">
+              <div class="card-body">
                   <h2 class="card-title text-center">Total Pengajuan</h2>
-                  <h1 class="text-center"><b></b></h1>
+                  <h1 class="text-center"><b> {{ $pendingCount }}</b></h1>
               </div>
           </div>
       </div>
@@ -167,7 +174,7 @@
           <div class="card" style="width: 15rem;">
               <div class="card-body">
                   <h2 class="card-title text-center">Pengajuan Diterima</h2>
-                  <h1 class="text-center"><b></b></h1>
+                  <h1 class="text-center"><b>{{ $approvedCount }}</b></h1>
               </div>
           </div>
       </div>
@@ -175,14 +182,14 @@
           <div class="card" style="width: 15rem;">
               <div class="card-body">
                   <h2 class="card-title text-center">Pengajuan Ditolak</h2>
-                  <h1 class="text-center"><b></b></h1>
+                  <h1 class="text-center"><b>{{ $rejectedCount }}</p></b></h1>
               </div>
           </div>
       </div>
       
-        <div class="row mt-5">
+        <div class="row mt-4">
             <div class="col-lg-10 mx-auto">
-              <div class="card mb-5 mt-2 pb-5 pt-2 px-4">
+              <div class="card mb-5 mt-2 pb-5 pt-4">
                 <table class="table align-middle mb-0 bg-white">
                   <thead class="bg-light">
                     <tr>
@@ -200,19 +207,19 @@
                     <td>{{ $peminjam->user ? $peminjam->user->name : 'User Not Found' }}</td>
                     <td>{{ $peminjam->created_at }}</td>
                     <td>
-                        @if($peminjam->id_status == 1)
-                            Pengajuan
-                        @elseif($peminjam->id_status == 2)
-                            Diterima
-                        @elseif($peminjam->id_status == 3)
-                            Ditolak
-                        @else
-                            Status Tidak Dikenal
-                        @endif
+                      @if($peminjam->id_status == 1)
+                          <p class="statusPengajuan">Pengajuan</p>
+                      @elseif($peminjam->id_status == 2)
+                          <p class="statusDiterima" style="color: green"><b>Diterima</b></p>
+                      @elseif($peminjam->id_status == 3)
+                          <p class="statusDitolak" style="color: red"><b>Ditolak</b></p>
+                      @else
+                          Status Tidak Dikenal
+                      @endif
                     </td>
                     <td>
                         <div class="d-grid gap-1 col-3">
-                          <a class="btn btn-sm btn-success" href="{{ route('peminjaman.show', $peminjam->id) }}">Detail</a>
+                          <a class="btn btn-sm btn-success" href="{{ route('AdminPeminjaman.show', $peminjam->id) }}">Detail</a>
                         </div>
                     </td>
                 </tr>

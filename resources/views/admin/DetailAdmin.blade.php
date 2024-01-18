@@ -38,8 +38,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="{{ route('dashboard.index') }}" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png')" alt="">
-        <span class="d-none d-lg-block">BusNela</span>
+        <img src="assets/img/busnela.png" alt="" height="50">
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -49,7 +48,6 @@
 
         <li class="nav-item dropdown pe-3">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
             <span class="d-none d-md-block dropdown-toggle ps-2" id="user-name-dropdown">
                 <!-- Nama pengguna akan ditampilkan di sini -->
             </span>
@@ -173,39 +171,82 @@
                 <div class="col-lg-10 mx-auto">
                     <div class="card">
                         <div class="card-body px-5 py-5">
-                            <h4 class="mt-3">Detail Peminjaman</h4>
-                            <p>Nama                  : {{ $peminjaman->user->name }}</p>
-                            <p>NPM                   : {{ $peminjaman->user->npm }}</p>
-                            <p>Prodi                 : {{ $peminjaman->user->prodi }}</p>
-                            <p>Jurusan               : {{ $peminjaman->user->major->name }}</p>
-                            <p>Nama Kegiatan         : {{ $peminjaman->nameActivity }}</p>
-                            <p>Tujuan                : {{ $peminjaman->destination }}</p>
-                            <p>Tanggal Keberangkatan : {{ $peminjaman->departure_date }}</p>
-                            <p>Tanggal Pulang        : {{ $peminjaman->date_finish }}</p>
-                            <p>Foto Surat Peminjaman : </p>
-                            <div class="row">
-                                <div class="col-lg-10 mx-auto">
-                                    <p><img src="{{ asset('storage/' . $peminjaman->image_latter) }}" alt="Foto Surat Peminjaman" width="300" height="200"></p>
-                                </div>
+                          <div class="row">
+                            <div class="col text-center mb-3">
+                              <h2><b>Detail Pengajuan</b></h2>
                             </div>
+                          </div>
+                          <div class="row px-5">
+                            <div class="col-md-4">
+                              <p>Nama</p>
+                              <p>NPM</p>
+                              <p>Jurusan</p>
+                              <p>Prodi</p>
+                              <p>Nama Kegiatan</p>
+                              <p>Tujuan Perjalanan</p>
+                              <p>Tipe Bus</p>
+                              <p>Tanggal Keberangkatan</p>
+                              <p>Tanggal Pulang</p>
+                            </div>
+                            <div class="col-md-4">
+                              <p>: {{ $peminjaman->user->name }}</p>
+                              <p>: {{ $peminjaman->user->npm }}</p>
+                              <p>: {{ $peminjaman->user->prodi }}</p>
+                              <p>: {{ $peminjaman->user->major->name }}</p>
+                          
+                              <!-- Informasi Peminjaman -->
+                              <p>: {{ $peminjaman->nameActivity }}</p>
+                              <p>: {{ $peminjaman->destination }}</p>
+                              <p>: {{ $bus->name }}</p>
+                              <p>: {{ $peminjaman->departure_date }}</p>
+                              <p>: {{ $peminjaman->date_finish }}</p>
+                            </div>
+                            <h5 class="mt-3"><b>Foto Surat Peminjaman :</b></h5>
+                          <div class="row">
+                            <div class="col-lg-4">
+                            </div>
+                              <div class="col-lg-6">
+                                  <p><img src="{{ asset('storage/' . $peminjaman->image_latter) }}" alt="Foto Surat Peminjaman" width="300" height="200"></p>
+                              </div>
+                          </div>
+                          </div>
                         </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end pe-5">
                           <a href="{{ route('AdminPeminjaman.index') }}" class="btn btn-secondary me-md-2 mb-3" type="button">Kembali</a>
-                      
                           <form action="{{ route('AdminPeminjaman.show', $peminjaman->id) }}" method="get">
                             @csrf
-                            <button type="submit" name="tolak" class="btn btn-danger me-md-2 mb-3">Tolak</button>
+                            {{-- <button type="submit" name="tolak" class="btn btn-danger me-md-2 mb-3">Tolak</button> --}}
                             <button type="submit" name="setuju" class="btn btn-success me-md-2 mb-3">Setuju</button>
+                            <button type="button" class="btn btn-danger me-md-2 mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                              Tolak
+                            </button>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <textarea name="pesan" rows="4" class="form-control mb-3" placeholder="Masukkan pesan untuk user"></textarea>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" name="tolak" class="btn btn-primary">Tolak</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </form>
-                      </div>
-                      
+                          <!-- Button trigger modal -->
+
+                          <!-- Modal -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->

@@ -14,7 +14,7 @@
         <div class="row main-content bg-success text-center">
             <div class="col-md-4 text-center company__info">
                 <span class="company__logo"><h2><span class="fa fa-android"></span></h2></span>
-                <h4 class="company_title">B U S N E L A</h4>
+                <img src="assets/img/busnela.png" alt="" class="mx-auto" height="180" width="300">
             </div>
             <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
                 <div class="container">
@@ -45,25 +45,25 @@
     {{-- ini untuk local Storage --}}
     <!-- ... Bagian HTML sebelumnya ... -->
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-    
-            const npmValue = document.getElementById('npm').value;
-            const passwordValue = document.getElementById('password').value;
-    
-            fetch("{{ route('loginPost') }}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify({ npm: npmValue, password: passwordValue }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Menyimpan data ke local storage berdasarkan peran (role)
-                    localStorage.setItem('user_id', data.additional_data.user_id);
+       document.getElementById('loginForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const npmValue = document.getElementById('npm').value;
+    const passwordValue = document.getElementById('password').value;
+
+    fetch("{{ route('loginPost') }}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        },
+        body: JSON.stringify({ npm: npmValue, password: passwordValue }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // ... (kode lainnya)
+            localStorage.setItem('user_id', data.additional_data.user_id);
                     localStorage.setItem('id_role', data.additional_data.id_role);
                     localStorage.setItem('isLoggedIn', 'true');
                     localStorage.setItem('npm', data.additional_data.npm);
@@ -79,27 +79,32 @@
                         localStorage.setItem('major_name', data.additional_data.major_name);
                         localStorage.setItem('isUser', 'true');
                     }
-    
-                    // Redirect ke rute yang sesuai berdasarkan peran (role)
-                    if (data.additional_data.isAdmin) {
-                        window.location.href = "{{ route('Admin.index') }}";
-                    } else {
-                        window.location.href = "{{ route('dashboard.index') }}";
-                    }
-                } else {
-                    // Periksa apakah terdapat pesan kesalahan
-                    const errorMessage = data.error ? `Login failed. ${data.error}` : 'Login failed.';
-    
-                    // Ganti dengan pemberitahuan yang lebih baik daripada alert
-                    console.error(errorMessage);
-                    // Menggunakan pemberitahuan atau menambahkan elemen HTML sesuai kebutuhan
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Menggunakan pemberitahuan atau menambahkan elemen HTML sesuai kebutuhan
+            // Redirect ke rute yang sesuai berdasarkan peran (role)
+            if (data.additional_data.isAdmin) {
+                window.location.href = "{{ route('Admin.index') }}";
+            } else {
+                window.location.href = "{{ route('dashboard.index') }}";
+            }
+        } else {
+            // Menampilkan SweetAlert untuk pesan kesalahan
+            Swal.fire({
+                icon: 'error',
+                title: 'Login failed',
+                text: data.error || 'An error occurred during login.',
             });
+        }
+    })
+    .catch(error => {
+        // Menampilkan SweetAlert untuk kesalahan fetch
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while processing your request.',
         });
+        console.error('Error:', error);
+    });
+});
+
     </script>
     
     
@@ -110,16 +115,13 @@
     {{-- end --}}
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @if($message = Session::get('failed'))
+    @if($message = Session::get('error'))
     <script>
         Swal.fire({
-            icon: 'error',
-            title: 'Login Gagal',
-            text: '{{ $message }}',
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 5000
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+        footer: '<a href="#">Why do I have this issue?</a>'
         });
     </script>
     @endif

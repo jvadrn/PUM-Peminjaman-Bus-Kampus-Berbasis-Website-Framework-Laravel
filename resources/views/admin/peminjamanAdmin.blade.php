@@ -49,7 +49,6 @@
         <!-- ... Bagian lain dari dropdown ... -->
       <li class="nav-item dropdown pe-3">
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-          <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
           <span class="d-none d-md-block dropdown-toggle ps-2" id="user-name-dropdown">
               <!-- Nama pengguna akan ditampilkan di sini -->
           </span>
@@ -126,7 +125,7 @@
       
       <li class="nav-item mb-1">
         <a class="nav-link collapsed" href="{{ route('AdminPeminjaman.index') }}">
-          <i class="bi bi-grid"></i>
+          <i class="bi bi-journal-text"></i>
           <span>Peminjaman</span>
         </a>
       </li><!-- End Peminjaman Nav -->
@@ -173,7 +172,7 @@
       </div>
       <div class="row mt-4">
         <div class="col-lg-10 mx-auto">
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-body">
                     <div class="d-grid p-card gap-2 d-md-block mt-3">
                         <div class="btn-p">
@@ -184,7 +183,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
       </div>
         <div class="row">
@@ -195,7 +194,7 @@
                 <tr>
                   <th>No</th>
                   <th>Nama</th>
-                  <th>Tanggal</th>
+                  <th>Tanggal | Jam</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -213,15 +212,15 @@
                           </td>
                           <td>{{ $peminjam->created_at }}</td>
                           <td>
-                              @if($peminjam->id_status == 1)
-                                  Pengajuan
-                              @elseif($peminjam->id_status == 2)
-                                  Diterima
-                              @elseif($peminjam->id_status == 3)
-                                  Ditolak
-                              @else
-                                  Status Tidak Dikenal
-                              @endif
+                            @if($peminjam->id_status == 1)
+                                <p class="statusPengajuan">Pengajuan</p>
+                            @elseif($peminjam->id_status == 2)
+                                <p class="statusDiterima" style="color: green"><b>Diterima</b></p>
+                            @elseif($peminjam->id_status == 3)
+                                <p class="statusDitolak" style="color: red"><b>Ditolak</b></p>
+                            @else
+                                Status Tidak Dikenal
+                            @endif
                           </td>
                           <td>
                               <div class="d-grid gap-1 col-3">
@@ -232,30 +231,27 @@
                   @endforeach
               </tbody>
             </table>
-            <nav aria-label="Page navigation example">
-              <ul class="pagination justify-content-start mt-3">
-                <!-- Tautan ke halaman sebelumnya -->
-                @if ($bookings->previousPageUrl())
-                    <li class="page-item">
-                        <a class="page-link" href="{{ $bookings->previousPageUrl() }}" aria-label="Previous">Previous</a>
-                    </li>
-                @else
-                    <li class="page-item disabled">
-                        <span class="page-link">Previous</span>
-                    </li>
-                @endif
-            
-                <!-- Tautan ke setiap halaman -->
-                @foreach ($bookings->getUrlRange(1, $bookings->lastPage()) as $page => $url)
-                    <li class="page-item {{ $page == $bookings->currentPage() ? 'active' : '' }}">
-                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                    </li>
-                @endforeach
-            
-                <!-- Tautan ke halaman berikutnya -->
-             
-            
           </div>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start mt-3">
+              <!-- Tautan ke halaman sebelumnya -->
+              @if ($bookings->previousPageUrl())
+                  <li class="page-item">
+                      <a class="page-link" href="{{ $bookings->previousPageUrl() }}" aria-label="Previous">Previous</a>
+                  </li>
+              @else
+                  <li class="page-item disabled">
+                      <span class="page-link">Previous</span>
+                  </li>
+              @endif
+              <!-- Tautan ke setiap halaman -->
+              @foreach ($bookings->getUrlRange(1, $bookings->lastPage()) as $page => $url)
+                  <li class="page-item {{ $page == $bookings->currentPage() ? 'active' : '' }}">
+                      <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                  </li>
+              @endforeach
+            </ul>
+          </nav>
         </div>
         </div>
         </div>

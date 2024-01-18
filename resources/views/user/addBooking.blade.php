@@ -178,7 +178,7 @@
                         <label for="nama" class="form-label">Nama</label>
                         <input type="text" class="form-control" id="name" name="name" aria-describedby="nama" readonly>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 mt-3">
                         <label for="npm" class="form-label">NPM</label>
                         <input type="text" class="form-control" id="npm-value" name="npm" aria-describedby="npm" readonly>
                     </div>
@@ -186,11 +186,11 @@
                         <label for="prodi" class="form-label">Prodi</label>
                         <input type="text" class="form-control" id="prodi" name="prodi" aria-describedby="prodi" readonly>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 mt-3">
                         <label for="jurusan" class="form-label">Jurusan</label>
                         <input type="text" class="form-control" id="major" name="major" aria-describedby="jurusan" readonly>
                     </div>
-                    <div class="row">
+                    <div class="mb-3 mt-3">
                       <div class="col-lg-12">
                           <label for="kegiatan" class="col-sm-6 col-form-label">Kegiatan</label>
                           <input type="text" class="form-control @error('nameActivity') is-invalid @enderror" placeholder="Masukkan Nama Kegiatan" id="kegiatan" name="nameActivity">
@@ -199,14 +199,27 @@
                           @enderror
                       </div>
                   </div>
-                  
-                        <div class="row">
+                      <div class="mb-3 mt-3">
+                        <div class="col-lg-12">
+                            <label for="bus" class="col-sm-6 col-form-label">BUS</label>
+                            <select class="form-select @error('id_bus') is-invalid @enderror" aria-label="Default select example" name="id_bus">
+                                <option selected disabled>Pilih tipe Bus</option>
+                                @foreach ($buses as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('id_bus')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                        <div class="mb-3 mt-3">
                           <div class="col-sm-12">
                             <label for="tujuan" class="col-sm-6 col-form-label">Tujuan / Destinasi</label>
-                              <input type="text" class="form-control" name='destination' value="" id="detination">
+                              <input type="text" class="form-control" name='destination' placeholder="Masukan tujuan perjalanan anda" value="" id="detination">
                           </div>
                         </div>
-                        <div class="row">
+                        <div class="mb-3 mt-3">
                           <div class="col-lg-12">
                             <div class="form-group">
                               <label for="input_from">Tanggal Awal Keberangkatan</label>
@@ -214,7 +227,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="row">
+                        <div class="mb-3 mt-3">
                           <div class="col-lg-12">
                             <div class="form-outline datepicker-translated">
                               <label for="exampleDatepicker3" class="form-label col-sm-6 col-form-label">Tanggal Akhir Peminjaman</label>
@@ -222,7 +235,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="row">
+                        <div class="mb-3 mt-3">
                           <div class="col-lg-12">
                             <label for="surat" class="col-lg-6 col-form-label" name="file">Surat Peminjaman</label>
                               <input type="file" class="form-control" name='image_latter' value="" id="image_latter">
@@ -230,9 +243,9 @@
                         </div>
                         <input type="hidden" name="user_id" id="user_id" value="">
                       
-                        <div class="row">
+                        <div class="mb-3 mt-3 d-grid gap-2 d-md-flex justify-content-md-end">
                             <label for="tambah" class="col-lg-6 col-form-label"></label>
-                            <div class="col-lg-12"><button type="submit" class="btn btn-primary" name="submit">Tambah</button></div>
+                            <div class="btn btn-primary me-md-2"><button type="submit" class="btn btn-primary" name="submit">+ Tambah</button></div>
                         </div>
                     </div>
                     </form>

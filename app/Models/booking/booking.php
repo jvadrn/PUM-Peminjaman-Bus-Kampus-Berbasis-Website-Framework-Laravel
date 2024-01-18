@@ -16,6 +16,7 @@ class booking extends Model
         'image_latter',
         'id_status',
         'id_major',
+        'id_bus',
         'departure_date',
         'date_finish',
         'user_id',
@@ -23,6 +24,10 @@ class booking extends Model
     public function user()
     {
         return $this->belongsTo(user::class, 'user_id','id'  );
+    }
+    public function pesan()
+    {
+        return $this->hasOne(Pesan::class, 'peminjaman_id', 'id');
     }
     
 }
